@@ -10,13 +10,13 @@ $idAlumno = (int)$coso[1];
 
 
 
-$query4 = "SELECT  carrera.nombre 
+$query4 = "SELECT  carrera.nombre,carrera.duracionAnios 
 FROM carrera
 WHERE carrera.id = '$idCarrera'";
 $respuesta4 = $con->query($query4);
 $row4 = mysqli_fetch_array($respuesta4);
 
-$query3 = "SELECT materia.id, materia.idCarrera, materia.nombre 
+$query3 = "SELECT materia.id, materia.idCarrera, materia.nombre, materia.anio 
 		FROM materia
 		WHERE materia.idCarrera = '$idCarrera'";
 $respuesta3 = $con->query($query3);
@@ -49,9 +49,10 @@ $respuesta3 = $con->query($query3);
     <div class="container">
         <div class="title">CARRERA: <?php echo $row4[0] ?></div>
 
-        <div class="title">MATERIAS:</div>
+        <!--<div class="title">MATERIAS:</div>-->
         <div class="content">
             <form id="cargaMaterias" method="POST" action="registroInscripciones.php">
+
                 <div class="user-details">
                     <div class="container col-md-12">
 
@@ -61,12 +62,16 @@ $respuesta3 = $con->query($query3);
                         <label><input class="form-check-input" type="checkbox" style="display:none" checked="checked"
                                 name="idAlumno" value="<?php echo $idAlumno ?>"></input></label>
 
-
-
                         <?php
-                        $i = 1;
-                        while (($row3 = $respuesta3->fetch_assoc())) {
 
+                        $i = 1;
+                        $siguienteAnio = 0;
+                        while (($row3 = $respuesta3->fetch_assoc())) {
+                            //este if sirve para escribir los anios arriba del listado de materias
+                            if ($row3['anio'] > $siguienteAnio) {
+                                //echo '<br>';
+                                echo $row3['anio'] . 'º AÑO:';
+                            }
                         ?>
 
                         <div class="radio">
@@ -75,6 +80,7 @@ $respuesta3 = $con->query($query3);
                                 <?php echo $row3['nombre'] ?></input></label>
                         </div>
                         <?php
+                            $siguienteAnio = $row3['anio'];
                         }
                         $i++;
                         ?>
@@ -82,13 +88,15 @@ $respuesta3 = $con->query($query3);
 
                     </div>
                     <div class="button">
-
                         <button type="submit" id="btnGuardar" name="enviar">Agregar Inscripciones</button>
-
                     </div>
+                    <?php
+                    ?>
+                </div>
             </form>
 
         </div>
+
         <div class="button">
 
             <a href="Carga_Alumno2.php"><button
