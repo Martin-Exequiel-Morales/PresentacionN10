@@ -10,7 +10,7 @@
 <body>
     <center><strong><label class="titulo">IMPORTAR profesores .CSV</label></strong></center>
     <p>
-    <form action="subir_profesores.php" method="POST" enctype="multipart/form-data">
+    <form action="subirProfesores.php" method="POST" enctype="multipart/form-data">
         <center>
             <table>
                 <tr>
